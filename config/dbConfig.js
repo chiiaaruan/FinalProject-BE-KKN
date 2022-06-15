@@ -7,10 +7,11 @@ const sequelize = new Sequelize("decoration", "root", "", {
 });
 
 const modelDefiners = [
-    // require('../models/authModel'),
+    require('../models/authModel'),
     require('../models/typeModel'),
     require('../models/furnitureModel'),
     require('../models/roomModel'),
+    require('../models/adminModel'),
 ];
 
 for (const modelDefiner of modelDefiners) {
