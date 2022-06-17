@@ -8,7 +8,7 @@ function applyRelation(sequelize) {
     type.hasMany(furniture);
     furniture.belongsTo(type);
 
-    auth.belongsTo(admin, { foreignKey: 'merchant_id' });
+    auth.belongsTo(admin, { foreignKey: 'admin_id' });
 }
 
 module.exports = { applyRelation };

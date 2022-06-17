@@ -7,6 +7,7 @@ const typeRoutes = require('./routes/typeRoutes');
 const furnitureRoutes = require('./routes/furnitureRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes');
+// const web = require('./routes/web');
 
 const PORT = process.env.PORT
 
@@ -42,6 +43,8 @@ app.use('/type', typeRoutes);
 app.use('/furniture', furnitureRoutes);
 app.use('/admin', adminRoutes);
 app.use('/login', authRoutes);
+
+app.use('/images', express.static('./images'))
 
 app.use('*', (req, res, next) => {
     res.status(404).json({ error: `unknown route` });

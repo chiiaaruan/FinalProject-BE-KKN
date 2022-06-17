@@ -1,5 +1,7 @@
 const { models } = require("../config/dbConfig");
 const { getIdParam } = require('../controllers/helpers');
+const path = require('path')
+const multer = require('multer')
 
 async function getAll(req, res) {
   const furnitures = await models.furniture.findAll()
@@ -21,7 +23,6 @@ async function getById(req, res) {
 }
 
 async function create(req, res) {
-  const { furnitureName,quantity, description, price, typeId } = req.body;
   if (req.body.id) {
     res
       .status(400)
@@ -31,11 +32,12 @@ async function create(req, res) {
       });
   } else {
     await models.furniture.create({
-      name: furnitureName,
-      quantity: quantity,
-      description: description,
-      price: price,
-      typeId: typeId,
+      name: req.body.furnitureName,
+      quantity: req.body.quantity,
+      description: req.body.description,
+      price: req.body.price,
+      typeId: req.body.typeId,
+      image:  req.file.path,
     });
     res.status(201).json({
       success: true,
@@ -72,10 +74,35 @@ async function remove(req, res) {
     res.status(200).json({ status: 'success' })
 };
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, './images/')
+  },
+  filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: '1000000' },
+  fileFilter: (req, file, cb) => {
+      const fileTypes = /jpeg|jpg|png|gif/
+      const mimeType = fileTypes.test(file.mimetype)  
+      const extname = fileTypes.test(path.extname(file.originalname))
+
+      if(mimeType && extname) {
+          return cb(null, true)
+      }
+      cb('Give proper files formate to upload')
+  }
+}).single('image')
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
   remove,
+  upload,
 };

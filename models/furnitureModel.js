@@ -31,5 +31,9 @@ module.exports = (sequelize) => {
                     min: 0,
                 }
             },
+            image: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
         });
 };
