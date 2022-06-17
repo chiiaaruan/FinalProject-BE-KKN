@@ -1,14 +1,13 @@
 function applyRelation(sequelize) {
 
-    const { type, furniture, room, auth, admin } = sequelize.models;
+    const {furniture, room, auth, admin } = sequelize.models;
 
-    room.hasMany(type);
-    type.belongsTo(room);
-    
-    type.hasMany(furniture);
-    furniture.belongsTo(type);
-
+    room.hasMany(furniture);
+    furniture.belongsTo(room);
     auth.belongsTo(admin, { foreignKey: 'admin_id' });
+    // type.hasMany(furniture);
+    // furniture.belongsTo(type);
+    
 }
 
 module.exports = { applyRelation };

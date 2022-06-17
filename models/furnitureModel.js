@@ -13,13 +13,6 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            quantity: {
-                allowNull: false,
-                type: DataTypes.INTEGER,
-                validate: {
-                    min: 0,
-                }
-            },
             description: {
                 type: DataTypes.STRING,
                 allowNull: false

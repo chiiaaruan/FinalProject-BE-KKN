@@ -8,10 +8,10 @@ const sequelize = new Sequelize("decoration", "root", "", {
 
 const modelDefiners = [
     require('../models/authModel'),
-    require('../models/typeModel'),
     require('../models/furnitureModel'),
     require('../models/roomModel'),
     require('../models/adminModel'),
+    // require('../models/typeModel'),
 ];
 
 for (const modelDefiner of modelDefiners) {

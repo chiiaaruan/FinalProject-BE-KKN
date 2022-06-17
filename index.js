@@ -3,11 +3,9 @@ const app = express ();
 const sequelize = require('./config/dbConfig');
 require('dotenv').config();
 const roomRoutes = require('./routes/roomRoutes');
-const typeRoutes = require('./routes/typeRoutes');
 const furnitureRoutes = require('./routes/furnitureRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes');
-// const web = require('./routes/web');
 
 const PORT = process.env.PORT || 8000
 
@@ -39,10 +37,10 @@ async function init() {
 app.use(express.json());
 
 app.use('/api/room', roomRoutes);
-app.use('/api/type', typeRoutes);
 app.use('/api/furniture', furnitureRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/login', authRoutes);
+// app.use('/api/type', typeRoutes);
 
 app.use('/images', express.static('./images'))
 

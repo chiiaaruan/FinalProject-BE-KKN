@@ -33,10 +33,9 @@ async function create(req, res) {
   } else {
     await models.furniture.create({
       name: req.body.furnitureName,
-      quantity: req.body.quantity,
       description: req.body.description,
       price: req.body.price,
-      typeId: req.body.typeId,
+      roomId: req.body.roomId,
       image:  req.file.path,
     });
     res.status(201).json({
@@ -46,12 +45,11 @@ async function create(req, res) {
 }
 
 async function update(req, res) {
-  const  { furnitureName,quantity, description, price } = req.body;
+  const  { furnitureName,description, price } = req.body;
   const id = getIdParam(req);
   await models.furniture.update(
     {
       name: furnitureName,
-      quantity: quantity,
       description: description,
       price: price,
     },
