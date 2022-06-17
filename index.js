@@ -39,10 +39,10 @@ async function init() {
 app.use(express.json());
 
 app.use('/api/room', roomRoutes);
-app.use('/type', typeRoutes);
-app.use('/furniture', furnitureRoutes);
-app.use('/admin', adminRoutes);
-app.use('/login', authRoutes);
+app.use('/api/type', typeRoutes);
+app.use('/api/furniture', furnitureRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/login', authRoutes);
 
 app.use('/images', express.static('./images'))
 
