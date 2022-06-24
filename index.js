@@ -9,6 +9,7 @@ const authRoutes = require('./routes/authRoutes');
 
 const PORT = process.env.PORT || 8000
 
+
 async function databaseConnection() {
     console.log(`Checking database connection...`);
     try {
