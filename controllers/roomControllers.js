@@ -80,7 +80,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'rooms',
-    format: async (req, file) => 'jpg', // supports promises as well
+    format: async (req, file) => ['jpg', 'png', 'jpeg'], // supports promises as well
     public_id: function (req, file) {
       (null, file.originalname); // The file on cloudinary would have the same name as the original file name
     }
