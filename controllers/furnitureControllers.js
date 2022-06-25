@@ -23,6 +23,7 @@ async function getById(req, res) {
 }
 
 async function create(req, res) {
+  if (!req.file) return res.send('Please upload a file')
   if (req.body.id) {
     res
       .status(400)
@@ -74,7 +75,7 @@ async function remove(req, res) {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, './images/')
+      cb(null, './furnitures/')
   },
   filename: (req, file, cb) => {
       cb(null, Date.now() + path.extname(file.originalname))
@@ -84,16 +85,16 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   limits: { fileSize: '1000000' },
-  fileFilter: (req, file, cb) => {
-      const fileTypes = /jpeg|jpg|png|gif/
-      const mimeType = fileTypes.test(file.mimetype)  
-      const extname = fileTypes.test(path.extname(file.originalname))
+  // fileFilter: (req, file, cb) => {
+  //     const fileTypes = /jpeg|jpg|png|gif/
+  //     const mimeType = fileTypes.test(file.mimetype)  
+  //     const extname = fileTypes.test(path.extname(file.originalname))
 
-      if(mimeType && extname) {
-          return cb(null, true)
-      }
-      cb('Give proper files formate to upload')
-  }
+  //     if(mimeType && extname) {
+  //         return cb(null, true)
+  //     }
+  //     cb('Give proper files formate to upload')
+  // }
 }).single('image')
 
 module.exports = {
