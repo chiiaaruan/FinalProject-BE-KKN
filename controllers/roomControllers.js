@@ -1,7 +1,14 @@
 const { models } = require("../config/dbConfig");
 const { getIdParam } = require("../controllers/helpers");
-const path = require('path')
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer')
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
+});
 
 async function getAll(req, res) {
   const rooms = await models.room.findAll();
@@ -21,6 +28,7 @@ async function getById(req, res) {
     res.status(404).send("404 - Not found");
   }
 }
+
 
 async function create(req, res) {
   if (!req.file) return res.send('Please upload a file')
@@ -68,29 +76,19 @@ async function remove(req, res) {
   res.status(200).json({ status: "success" });
 }
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-      cb(null, './images')
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'rooms',
+    format: async (req, file) => 'jpg', // supports promises as well
+    public_id: function (req, file) {
+      (null, file.originalname); // The file on cloudinary would have the same name as the original file name
+    }
   },
-  filename: (req, file, cb) => {
-      cb(null, Date.now() + path.extname(file.originalname))
-  }
-})
+});
 
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: '1000000' },
-  fileFilter: (req, file, cb) => {
-      const fileTypes = /jpeg|jpg|png|gif/
-      const mimeType = fileTypes.test(file.mimetype)  
-      const extname = fileTypes.test(path.extname(file.originalname))
+const uploadCloud = multer({ storage: storage }).single('image');
 
-      if(mimeType && extname) {
-          return cb(null, true)
-      }
-      cb('Give proper files formate to upload')
-  }
-}).single('image')
 
 module.exports = {
   getAll,
@@ -98,5 +96,5 @@ module.exports = {
   create,
   update,
   remove,
-  upload,
+  uploadCloud
 };

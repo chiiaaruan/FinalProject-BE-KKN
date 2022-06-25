@@ -41,7 +41,6 @@ app.use('/api/room', roomRoutes);
 app.use('/api/furniture', furnitureRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/login', authRoutes);
-// app.use('/api/type', typeRoutes);
 
 app.use('/images', express.static('./images'))
 
